@@ -7,6 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.1",
     "axios": "^0.19.2",
     "next": "latest",
     "polished": "^3.6.5",
