@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Data } from "../types";
 
 export enum LabelColor {
-  cases = "black",
+  cases = "transparent",
   recovered = "silver",
   deaths = "tomato",
   active = "gray",

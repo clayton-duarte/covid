@@ -34,7 +34,7 @@ const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
       <Head>
         <title>C0VID19 - {today}</title>
       </Head>
-      <Title>C0VID19 - {today}</Title>
+      <Title>{today}</Title>
       <Template>
         <Card {...world}></Card>
         <Card {...brazil}></Card>
