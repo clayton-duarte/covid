@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { CountryData, Data } from "../types";
+import PercentBar from "./PercentBar";
 import DataRow from "./DataRow";
 import Paper from "./Paper";
 import Title from "./Title";
@@ -23,6 +24,12 @@ const Card: FunctionComponent<CardProps> = ({
       <DataRow label="active" value={active} />
       <DataRow label="recovered" value={recovered} />
       <DataRow label="deaths" value={deaths} />
+      <PercentBar
+        recovered={recovered}
+        active={active}
+        deaths={deaths}
+        cases={cases}
+      />
     </Paper>
   );
 };
