@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { AppProps } from "next/app";
 
 const theme = {
@@ -8,11 +8,13 @@ const theme = {
 
 const GlobalStyle = createGlobalStyle`
 body, html, #__next {
-  font-family: monospace;
+  font-family: 'Baloo 2', sans-serif;
   align-content: start;
+  background: white;
   font-size: 16px;
   display: grid;
   height: 100%;
+  color: black;
   margin: 0;
 }
 
@@ -22,10 +24,18 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 `;
 
+const Template = styled.main`
+  display: grid;
+  padding: 1rem;
+  gap: 1rem;
+`;
+
 const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <Template>
+        <Component {...pageProps} />
+      </Template>
       <GlobalStyle />
     </ThemeProvider>
   );

@@ -1,14 +1,15 @@
 import React from "react";
-import { NextPage } from "next";
 import styled from "styled-components";
+import { NextPage } from "next";
+import Head from "next/head";
 import Axios from "axios";
 
 import { WorldData, CountryData } from "../types";
+import Title from "../components/Title";
 import Card from "../components/Card";
 
 const Template = styled.main`
   grid-template-columns: 1fr;
-  padding: 1rem;
   display: grid;
   gap: 1rem;
   @media (min-width: 767px) {
@@ -26,16 +27,20 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
-  console.log("brazil", brazil);
-  console.log("canada", canada);
-  console.log("world", world);
+  const today = new Date().toJSON().slice(0, 10).split("-").join("/");
 
   return (
-    <Template>
-      <Card {...world}></Card>
-      <Card {...brazil}></Card>
-      <Card {...canada}></Card>
-    </Template>
+    <>
+      <Head>
+        <title>C0VID19 - {today}</title>
+      </Head>
+      <Title>C0VID19 - {today}</Title>
+      <Template>
+        <Card {...world}></Card>
+        <Card {...brazil}></Card>
+        <Card {...canada}></Card>
+      </Template>
+    </>
   );
 };
 
