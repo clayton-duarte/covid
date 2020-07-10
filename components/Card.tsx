@@ -20,10 +20,10 @@ const Card: FunctionComponent<CardProps> = ({
   return (
     <Paper>
       <Title>{country || "World"}</Title>
-      <DataRow label="cases" value={cases} />
-      <DataRow label="active" value={active} />
-      <DataRow label="recovered" value={recovered} />
-      <DataRow label="deaths" value={deaths} />
+      <DataRow label="cases" value={cases} total={cases} />
+      <DataRow label="active" value={active} total={cases} />
+      <DataRow label="recovered" value={recovered} total={cases} />
+      <DataRow label="deaths" value={deaths} total={cases} />
       <PercentBar
         recovered={recovered}
         active={active}
