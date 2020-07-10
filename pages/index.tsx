@@ -5,16 +5,13 @@ import Head from "next/head";
 import Axios from "axios";
 
 import { WorldData, CountryData } from "../types";
-import Title from "../components/Title";
+import Compare from "../components/Compare";
 import Card from "../components/Card";
 
 const Template = styled.main`
   grid-template-columns: 1fr;
   display: grid;
   gap: 1rem;
-  @media (min-width: 767px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
   @media (min-width: 1023px) {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -34,11 +31,40 @@ const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
       <Head>
         <title>C0VID19 - {today}</title>
       </Head>
-      <Title>{today}</Title>
       <Template>
         <Card {...world}></Card>
         <Card {...brazil}></Card>
         <Card {...canada}></Card>
+        <Compare
+          dataLabel="casesPerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
+        <Compare
+          dataLabel="activePerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
+        <Compare
+          dataLabel="deathsPerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
+        <Compare
+          dataLabel="testsPerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
+        <Compare
+          dataLabel="criticalPerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
+        <Compare
+          dataLabel="recoveredPerOneMillion"
+          country1={brazil}
+          country2={canada}
+        />
       </Template>
     </>
   );
