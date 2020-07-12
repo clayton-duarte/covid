@@ -2,19 +2,35 @@ import React, { FunctionComponent } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { AppProps } from "next/app";
 
-const theme = {
+const colors = {
   primary: "tomato",
+  secondary: "grey",
+  tertiary: "silver",
+  text: "black",
+  bg: "white",
 };
 
-const GlobalStyle = createGlobalStyle`
+const shapes = {
+  shadow1: "0 0 1rem rgba(0, 0, 0, 0.2)",
+  shadow2: "inset 0 -0.25rem 0 rgba(0, 0, 0, 0.2)",
+  border: `1px solid ${colors.tertiary}`,
+  radius: "1rem",
+};
+
+const theme = {
+  ...colors,
+  ...shapes,
+};
+
+const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
 body, html, #__next {
+  background: ${(props) => props.theme.bg};
+  color: ${(props) => props.theme.text};
   font-family: 'Baloo 2', sans-serif;
   align-content: start;
-  background: white;
   font-size: 16px;
   display: grid;
   height: 100%;
-  color: black;
   margin: 0;
 }
 

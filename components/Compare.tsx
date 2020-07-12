@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
-import { roundNumber } from "../libs/formatters";
+import { roundNumber, formatPercent } from "../libs/formatters";
 import { CountryData } from "../types";
 import Divider from "./Divider";
 import Paper from "./Paper";
@@ -16,18 +16,20 @@ const StyledRow = styled.p`
 const StyledValue = styled.span``;
 
 const GraphPar = styled.div<{ value1: number; value2: number }>`
-  box-shadow: inset 0 -0.25rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: ${(props) => props.theme.radius};
+  box-shadow: ${(props) => props.theme.shadow2};
+  color: ${(props) => props.theme.bg};
   grid-template-columns: auto auto;
   justify-content: space-between;
   padding: 0.25rem 1rem;
-  border-radius: 1rem;
   display: grid;
-  color: white;
   gap: 0.5rem;
   background: linear-gradient(
     90deg,
-    grey 0% ${({ value1, value2 }) => (value1 / (value1 + value2)) * 100}%,
-    tomato ${({ value1, value2 }) => (value1 / (value1 + value2)) * 100}% 100%
+    ${(props) => props.theme.secondary} 0%
+      ${({ value1, value2 }) => formatPercent(value1, value1 + value2)},
+    ${(props) => props.theme.primary}
+      ${({ value1, value2 }) => formatPercent(value1, value1 + value2)} 100%
   );
 `;
 

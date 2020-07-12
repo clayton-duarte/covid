@@ -1,13 +1,7 @@
 import styled from "styled-components";
 
 import { formatPercent } from "../libs/formatters";
-import { Data } from "../types";
-
-export enum LabelColor {
-  recovered = "silver",
-  deaths = "tomato",
-  active = "gray",
-}
+import { Data, LabelColor } from "../types";
 
 interface PercentBarProps {
   recovered: Data["recovered"];
@@ -22,13 +16,13 @@ export default styled.div<PercentBarProps>`
   height: 1rem;
   background: linear-gradient(
     90deg,
-    ${LabelColor.active} 0%
+    ${(props) => props.theme[LabelColor.active]} 0%
       ${({ active, cases }) => formatPercent(active, cases)},
-    ${LabelColor.recovered}
+    ${(props) => props.theme[LabelColor.recovered]}
       ${({ active, cases }) => formatPercent(active, cases)}
       ${({ recovered, active, cases }) =>
         formatPercent(recovered + active, cases)},
-    ${LabelColor.deaths}
+    ${(props) => props.theme[LabelColor.deaths]}
       ${({ recovered, active, cases }) =>
         formatPercent(recovered + active, cases)}
       100%

@@ -2,6 +2,6 @@ import styled from "styled-components";
 
 export default styled.hr`
   border: none;
-  border-bottom: 1px solid silver;
+  border-bottom: ${(props) => props.theme.border};
   margin: 0;
 `;

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
 import { formatPercent, formatNumber } from "../libs/formatters";
-import { LabelColor } from "./PercentBar";
+import { LabelColor } from "../types";
 
 const StyledRow = styled.p`
   grid-template-columns: auto 1fr auto auto;
@@ -12,9 +12,9 @@ const StyledRow = styled.p`
   gap: 0.5rem;
 `;
 
-const StyledCircle = styled.span<{ color: string }>`
-  box-shadow: inset 0 -0.125rem 0 rgba(0, 0, 0, 0.2);
-  background: ${(props) => props.color};
+const StyledCircle = styled.span<{ label: string }>`
+  background: ${(props) => props.theme[LabelColor[props.label]]};
+  box-shadow: ${(props) => props.theme.shadow2};
   border-radius: 0.5rem;
   height: 0.5rem;
   width: 0.5rem;
@@ -27,8 +27,8 @@ const StyledLabel = styled.strong`
 const StyledValue = styled.span``;
 
 const StyledPercent = styled.span`
+  color: ${(props) => props.theme.secondary};
   text-align: right;
-  color: grey;
   width: 3ch;
 `;
 
@@ -43,7 +43,7 @@ const DataRow: FunctionComponent<DataRowProps> = ({ label, value, total }) => {
 
   return (
     <StyledRow>
-      <StyledCircle color={LabelColor[label]} />
+      <StyledCircle label={label} />
       <StyledLabel>{label}:</StyledLabel>
       <StyledValue>{formatNumber(value)}</StyledValue>
       <StyledPercent>{percent}</StyledPercent>
