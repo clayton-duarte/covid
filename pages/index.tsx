@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
 import Head from "next/head";
-import Axios from "axios";
 
 import { WorldData, CountryData } from "../types";
 import { formatDate } from "../libs/formatters";
 import Compare from "../components/Compare";
 import Card from "../components/Card";
+import api from "../libs/api";
 
 const Template = styled.main`
   grid-template-columns: 1fr;
@@ -24,7 +24,7 @@ interface PageProps {
   world: WorldData;
 }
 
-const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
+const HomePage: NextPage<PageProps> = ({ world, brazil, canada }) => {
   return (
     <>
       <Head>
@@ -69,12 +69,10 @@ const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
   );
 };
 
-Home.getInitialProps = async () => {
-  const baseUrl = "https://corona.lmao.ninja/v2";
-
-  const brazil = Axios.get<CountryData>(`${baseUrl}/countries/brazil`);
-  const canada = Axios.get<CountryData>(`${baseUrl}/countries/canada`);
-  const world = Axios.get<WorldData>(`${baseUrl}/all`);
+HomePage.getInitialProps = async () => {
+  const brazil = api.get<CountryData>("/countries/brazil");
+  const canada = api.get<CountryData>("/countries/canada");
+  const world = api.get<WorldData>("/all");
 
   return {
     brazil: (await brazil).data,
@@ -83,4 +81,4 @@ Home.getInitialProps = async () => {
   };
 };
 
-export default Home;
+export default HomePage;
