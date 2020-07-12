@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
+import { formatPercent, formatNumber } from "../libs/formatters";
 import { LabelColor } from "./PercentBar";
 
 const StyledRow = styled.p`
@@ -38,16 +39,14 @@ interface DataRowProps {
 }
 
 const DataRow: FunctionComponent<DataRowProps> = ({ label, value, total }) => {
-  const percent = ((value / total) * 100).toFixed(0);
+  const percent = formatPercent(value, total);
 
   return (
     <StyledRow>
       <StyledCircle color={LabelColor[label]} />
       <StyledLabel>{label}:</StyledLabel>
-      <StyledValue>
-        {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-      </StyledValue>
-      <StyledPercent>{percent}%</StyledPercent>
+      <StyledValue>{formatNumber(value)}</StyledValue>
+      <StyledPercent>{percent}</StyledPercent>
     </StyledRow>
   );
 };

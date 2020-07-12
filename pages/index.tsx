@@ -5,6 +5,7 @@ import Head from "next/head";
 import Axios from "axios";
 
 import { WorldData, CountryData } from "../types";
+import { formatDate } from "../libs/formatters";
 import Compare from "../components/Compare";
 import Card from "../components/Card";
 
@@ -24,12 +25,10 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = ({ world, brazil, canada }) => {
-  const today = new Date().toJSON().slice(0, 10).split("-").join("/");
-
   return (
     <>
       <Head>
-        <title>C0VID19 - {today}</title>
+        <title>C0VID19 - {formatDate()}</title>
       </Head>
       <Template>
         <Card {...world}></Card>

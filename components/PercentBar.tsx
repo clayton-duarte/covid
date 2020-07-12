@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import { formatPercent } from "../libs/formatters";
 import { Data } from "../types";
 
 export enum LabelColor {
@@ -21,11 +22,15 @@ export default styled.div<PercentBarProps>`
   height: 1rem;
   background: linear-gradient(
     90deg,
-    ${LabelColor.active} 0% ${({ active, cases }) => (active / cases) * 100}%,
-    ${LabelColor.recovered} ${({ active, cases }) => (active / cases) * 100}%
-      ${({ recovered, active, cases }) => ((recovered + active) / cases) * 100}%,
+    ${LabelColor.active} 0%
+      ${({ active, cases }) => formatPercent(active, cases)},
+    ${LabelColor.recovered}
+      ${({ active, cases }) => formatPercent(active, cases)}
+      ${({ recovered, active, cases }) =>
+        formatPercent(recovered + active, cases)},
     ${LabelColor.deaths}
-      ${({ recovered, active, cases }) => ((recovered + active) / cases) * 100}%
+      ${({ recovered, active, cases }) =>
+        formatPercent(recovered + active, cases)}
       100%
   );
 `;

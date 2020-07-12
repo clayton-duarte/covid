@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
+import { roundNumber } from "../libs/formatters";
 import { CountryData } from "../types";
 import Divider from "./Divider";
 import Paper from "./Paper";
@@ -52,9 +53,10 @@ const Compare: FunctionComponent<CompareProps> = ({
     testsPerOneMillion: "tests / million",
   };
 
-  const roundValue = (data) => Math.round(Number(data));
-  const value1 = roundValue(country1[dataLabel]);
-  const value2 = roundValue(country2[dataLabel]);
+  const value1 = Number(country1[dataLabel]);
+  const formattedValue1 = roundNumber(value1);
+  const value2 = Number(country2[dataLabel]);
+  const formattedValue2 = roundNumber(value2);
 
   return (
     <Paper>
@@ -65,8 +67,8 @@ const Compare: FunctionComponent<CompareProps> = ({
         <StyledValue>{country2.country}</StyledValue>
       </StyledRow>
       <GraphPar value1={value1} value2={value2}>
-        <StyledValue>{value1}</StyledValue>
-        <StyledValue>{value2}</StyledValue>
+        <StyledValue>{formattedValue1}</StyledValue>
+        <StyledValue>{formattedValue2}</StyledValue>
       </GraphPar>
     </Paper>
   );

@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
+import { formatNumber } from "../libs/formatters";
+
 const StyledRow = styled.p`
   grid-template-columns: 1fr auto;
   justify-content: space-between;
@@ -24,9 +26,7 @@ const DataRow: FunctionComponent<DataRowProps> = ({ label, value }) => {
   return (
     <StyledRow>
       <StyledLabel>{label}:</StyledLabel>
-      <StyledValue>
-        {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-      </StyledValue>
+      <StyledValue>{formatNumber(value)}</StyledValue>
     </StyledRow>
   );
 };
