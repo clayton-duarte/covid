@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import { PageTransition } from "next-page-transitions";
 import { AppProps } from "next/app";
 
 const colors = {
@@ -41,6 +42,28 @@ p, h1, h2, h3, h4, h5, h6 {
   line-height: 1;
   margin: 0;
 }
+
+.page-transition-enter {
+  position: relative;
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  transition: 0.2s ease;
+  position: relative;
+  opacity: 1;
+}
+
+.page-transition-exit {
+  position: relative;
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  transition: 0.2s ease;
+  position: relative;
+  opacity: 0;
+}
 `;
 
 const Template = styled.main`
@@ -49,12 +72,18 @@ const Template = styled.main`
   gap: 1rem;
 `;
 
-const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
+const MyApp: FunctionComponent<AppProps> = ({
+  Component,
+  pageProps,
+  router,
+}) => {
   return (
     <ThemeProvider theme={theme}>
-      <Template>
-        <Component {...pageProps} />
-      </Template>
+      <PageTransition timeout={200} classNames="page-transition">
+        <Template>
+          <Component {...pageProps} key={router.route} />
+        </Template>
+      </PageTransition>
       <GlobalStyle />
     </ThemeProvider>
   );
