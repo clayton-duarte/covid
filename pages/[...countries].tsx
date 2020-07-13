@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FocusEvent, useState, FormEvent } from "react";
+import { FiPlusCircle } from "react-icons/fi";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { NextPage } from "next";
@@ -51,37 +52,19 @@ const ComparisonArea = styled(Paper)`
   gap: 1rem;
 `;
 
-const AddCard = styled(Paper)<{ isAdding: boolean }>`
-  position: relative;
+const StyledIcon = styled(FiPlusCircle)<{ isAdding: boolean }>`
+  opacity: ${(props) => (props.isAdding ? 0 : 1)};
+  color: ${(props) => props.theme.tertiary};
+  left: calc(50% - 2.5rem);
+  top: calc(50% - 2.5rem);
+  pointer-events: none;
+  position: absolute;
+  font-size: 5rem;
+`;
+
+const AddCard = styled(Paper)`
   min-height: 10rem;
   height: 100%;
-  &:before {
-    opacity: ${(props) => (props.isAdding ? 0 : 1)};
-    border-radius: ${(props) => props.theme.radius};
-    background: ${(props) => props.theme.tertiary};
-    color: ${(props) => props.theme.tertiary};
-    left: calc(50% - 2.5rem);
-    top: calc(50% - 0.25rem);
-    pointer-events: none;
-    position: absolute;
-    height: 0.5rem;
-    content: "";
-    width: 5rem;
-    z-index: 9;
-  }
-  &:after {
-    opacity: ${(props) => (props.isAdding ? 0 : 1)};
-    border-radius: ${(props) => props.theme.radius};
-    background: ${(props) => props.theme.tertiary};
-    color: ${(props) => props.theme.tertiary};
-    left: calc(50% - 0.25rem);
-    top: calc(50% - 2.5rem);
-    pointer-events: none;
-    position: absolute;
-    width: 0.5rem;
-    height: 5rem;
-    content: "";
-  }
 `;
 
 const StyledInput = styled.input<{ isAdding: boolean }>`
@@ -141,7 +124,8 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
             <Card key={country.countryInfo._id + index} {...country} />
           ))}
           <form onSubmit={handleSubmit}>
-            <AddCard isAdding={isAdding}>
+            <AddCard>
+              <StyledIcon isAdding={isAdding} />
               <StyledInput
                 onChange={handleChange}
                 onFocus={handleFocus}
