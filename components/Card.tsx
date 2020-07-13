@@ -26,48 +26,49 @@ const StyledIcon = styled(FiMinusCircle)`
   top: 1rem;
 `;
 
-interface CardProps extends Data {
-  country: CountryData["country"];
+interface CardProps {
+  countries: CountryData[];
+  country: CountryData;
 }
 
-const Card: FunctionComponent<CardProps> = ({
-  population,
-  country,
-  ...props
-}) => {
+const Card: FunctionComponent<CardProps> = ({ countries, country }) => {
   const stats = ["active", "recovered", "deaths"];
   const router = useRouter();
 
   const handleClickRemove = () => {
-    const countries = router.query.countries as string[];
-    const filteredCountries = countries.filter(
-      (path) => path !== country.toLowerCase()
-    );
+    const filteredCountries = countries
+      .map((a) => a.country.toLowerCase())
+      .filter((path) => path !== country.country.toLowerCase());
+    console.log(filteredCountries);
     router.push(`/${arrayToPath(filteredCountries)}`);
   };
 
   return (
     <Paper>
       <StyledIcon role="button" onClick={handleClickRemove} />
-      <Link href="/[...countries]" as={`/${country.toLowerCase()}`} passHref>
+      <Link
+        as={`/${country.country.toLowerCase()}`}
+        href="/[...countries]"
+        passHref
+      >
         <StyledAnchor href="#">
-          <Title>{country}</Title>
+          <Title>{country.country}</Title>
         </StyledAnchor>
       </Link>
       <Divider />
-      <DataRow label="population" value={population} />
-      <DataRow label="cases" value={props.cases} />
+      <DataRow label="population" value={country.population} />
+      <DataRow label="cases" value={country.cases} />
       <Divider />
       {stats.map((stat, index) => (
         <GraphLegend
-          value={props[stat]}
-          total={props.cases}
+          value={country[stat]}
+          total={country.cases}
           key={stat + index}
           index={index}
           label={stat}
         />
       ))}
-      <PercentBar dataList={stats.map((stat) => props[stat])} />
+      <PercentBar dataList={stats.map((stat) => country[stat])} />
     </Paper>
   );
 };

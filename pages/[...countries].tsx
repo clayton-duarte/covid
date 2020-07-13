@@ -1,12 +1,17 @@
-import React, { ChangeEvent, FocusEvent, useState, FormEvent } from "react";
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  useState,
+  FormEvent,
+  useEffect,
+} from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { NextPage } from "next";
-import Head from "next/head";
 
-import { formatDate, arrayToPath } from "../libs/formatters";
 import GraphLegend from "../components/GraphLegend";
+import { arrayToPath } from "../libs/formatters";
 import Compare from "../components/Compare";
 import Title from "../components/Title";
 import Paper from "../components/Paper";
@@ -52,8 +57,8 @@ const ComparisonArea = styled(Paper)`
   gap: 1rem;
 `;
 
-const StyledIcon = styled(FiPlusCircle)<{ isAdding: boolean }>`
-  opacity: ${(props) => (props.isAdding ? 0 : 1)};
+const StyledIcon = styled(FiPlusCircle)<{ hidden: boolean }>`
+  opacity: ${(props) => (props.hidden ? 0 : 1)};
   color: ${(props) => props.theme.tertiary};
   left: calc(50% - 2.5rem);
   top: calc(50% - 2.5rem);
@@ -86,11 +91,16 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const router = useRouter();
 
+  const correctPath = `/${arrayToPath(
+    countries.map(({ country }) => country)
+  )}/${newCountry}`;
+
+  useEffect(() => {
+    window.history.replaceState({}, "", correctPath);
+  }, []);
+
   const pushNewCountry = () => {
-    const path = `/${arrayToPath(
-      router.query.countries as string[]
-    )}/${newCountry}`;
-    router.push(path);
+    router.push(correctPath);
   };
 
   const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
@@ -114,48 +124,47 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
   };
 
   return (
-    <>
-      <Head>
-        <title>C0VID19 - {formatDate()}</title>
-      </Head>
-      <PageTemplate>
-        <CardArea>
+    <PageTemplate>
+      <CardArea>
+        {countries.map((country, index) => (
+          <Card
+            key={country.countryInfo._id + index}
+            countries={countries}
+            country={country}
+          />
+        ))}
+        <form onSubmit={handleSubmit}>
+          <AddCard>
+            <StyledIcon hidden={isAdding} />
+            <StyledInput
+              onChange={handleChange}
+              onFocus={handleFocus}
+              isAdding={isAdding}
+              onBlur={handleBlur}
+              value={newCountry}
+            />
+          </AddCard>
+        </form>
+      </CardArea>
+      {countries.length > 1 && (
+        <ComparisonArea>
+          <Title>Comparing</Title>
           {countries.map((country, index) => (
-            <Card key={country.countryInfo._id + index} {...country} />
+            <GraphLegend
+              key={country.country + index}
+              label={country.country}
+              index={index}
+            />
           ))}
-          <form onSubmit={handleSubmit}>
-            <AddCard>
-              <StyledIcon isAdding={isAdding} />
-              <StyledInput
-                onChange={handleChange}
-                onFocus={handleFocus}
-                isAdding={isAdding}
-                onBlur={handleBlur}
-                value={newCountry}
-              />
-            </AddCard>
-          </form>
-        </CardArea>
-        {countries.length > 1 && (
-          <ComparisonArea>
-            <Title>Comparing</Title>
-            {countries.map((country, index) => (
-              <GraphLegend
-                key={country.country + index}
-                label={country.country}
-                index={index}
-              />
-            ))}
-            <Compare dataLabel="casesPerOneMillion" countries={countries} />
-            <Compare dataLabel="activePerOneMillion" countries={countries} />
-            <Compare dataLabel="deathsPerOneMillion" countries={countries} />
-            <Compare dataLabel="testsPerOneMillion" countries={countries} />
-            <Compare dataLabel="criticalPerOneMillion" countries={countries} />
-            <Compare dataLabel="recoveredPerOneMillion" countries={countries} />
-          </ComparisonArea>
-        )}
-      </PageTemplate>
-    </>
+          <Compare dataLabel="casesPerOneMillion" countries={countries} />
+          <Compare dataLabel="activePerOneMillion" countries={countries} />
+          <Compare dataLabel="deathsPerOneMillion" countries={countries} />
+          <Compare dataLabel="testsPerOneMillion" countries={countries} />
+          <Compare dataLabel="criticalPerOneMillion" countries={countries} />
+          <Compare dataLabel="recoveredPerOneMillion" countries={countries} />
+        </ComparisonArea>
+      )}
+    </PageTemplate>
   );
 };
 

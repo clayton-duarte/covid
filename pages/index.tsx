@@ -14,6 +14,7 @@ HomePage.getInitialProps = async ({ req, res }) => {
     // is on client
     Router.push("/brazil");
   }
+  return {};
 };
 
 export default HomePage;

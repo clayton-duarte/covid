@@ -27,20 +27,10 @@ const Compare: FunctionComponent<CompareProps> = ({ dataLabel, countries }) => {
   };
 
   const dataList = countries.map((country) => Number(country[dataLabel]));
-  // const total = dataList.reduce((a, b) => a + b, 0);
 
   return (
     <>
       <SubTitle>{mapLabels[dataLabel]}</SubTitle>
-      {/* {countries.map((country, index) => (
-        <GraphLegend
-          value={Number(country[dataLabel])}
-          key={country.country + index}
-          label={country.country}
-          total={total}
-          index={index}
-        />
-      ))} */}
       <PercentBar dataList={dataList} />
     </>
   );

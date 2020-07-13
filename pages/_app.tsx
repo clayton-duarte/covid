@@ -2,6 +2,9 @@ import React, { FunctionComponent } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { PageTransition } from "next-page-transitions";
 import { AppProps } from "next/app";
+import Head from "next/head";
+
+import { formatDate } from "../libs/formatters";
 
 const colors = {
   primary: "tomato",
@@ -81,6 +84,9 @@ const MyApp: FunctionComponent<AppProps> = ({
     <ThemeProvider theme={theme}>
       <PageTransition timeout={200} classNames="page-transition">
         <Template>
+          <Head>
+            <title>C0VID19 - {formatDate()}</title>
+          </Head>
           <Component {...pageProps} key={router.route} />
         </Template>
       </PageTransition>

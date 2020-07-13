@@ -5,7 +5,6 @@ interface PercentBarProps {
 }
 
 const createGradient = ({ dataList }: PercentBarProps): string => {
-  // TODO > make it less complex
   return dataList
     .map((data) => (data / dataList.reduce((a, b) => a + b, 0)) * 100)
     .map((data, index, arr) => {
