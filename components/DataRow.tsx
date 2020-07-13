@@ -25,7 +25,7 @@ interface DataRowProps {
 const DataRow: FunctionComponent<DataRowProps> = ({ label, value }) => {
   return (
     <StyledRow>
-      <StyledLabel>{label}:</StyledLabel>
+      <StyledLabel>{label}</StyledLabel>
       <StyledValue>{formatNumber(value)}</StyledValue>
     </StyledRow>
   );

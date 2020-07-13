@@ -4,12 +4,14 @@ import styled from "styled-components";
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { formatDate } from "../libs/formatters";
+import { formatDate, arrayToPath } from "../libs/formatters";
+import GraphLegend from "../components/GraphLegend";
+import Compare from "../components/Compare";
+import Title from "../components/Title";
+import Paper from "../components/Paper";
 import { CountryData } from "../types";
-import Compare from "./Compare";
+import Card from "../components/Card";
 import api from "../libs/api";
-import Paper from "./Paper";
-import Card from "./Card";
 
 const PageTemplate = styled.main`
   grid-template-areas: "cards comparison";
@@ -43,7 +45,7 @@ const CardArea = styled.article`
   }
 `;
 
-const ComparisonArea = styled.aside`
+const ComparisonArea = styled(Paper)`
   grid-area: comparison;
   display: grid;
   gap: 1rem;
@@ -101,6 +103,13 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const router = useRouter();
 
+  const pushNewCountry = () => {
+    const path = `/${arrayToPath(
+      router.query.countries as string[]
+    )}/${newCountry}`;
+    router.push(path);
+  };
+
   const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
     setIsAdding(true);
@@ -109,9 +118,7 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
     setIsAdding(false);
-    if (newCountry.length > 2) {
-      router.push(`/${router.query.countries},${newCountry}`);
-    }
+    if (newCountry.length > 2) pushNewCountry();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +127,7 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/${router.query.countries},${newCountry}`);
+    pushNewCountry();
   };
 
   return (
@@ -145,35 +152,33 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
             </AddCard>
           </form>
         </CardArea>
-        <ComparisonArea>
-          {countries.length && countries.length < 10 ? (
-            <>
-              <Compare dataLabel="casesPerOneMillion" countries={countries} />
-              <Compare dataLabel="activePerOneMillion" countries={countries} />
-              <Compare dataLabel="deathsPerOneMillion" countries={countries} />
-              <Compare dataLabel="testsPerOneMillion" countries={countries} />
-              <Compare
-                dataLabel="criticalPerOneMillion"
-                countries={countries}
+        {countries.length > 1 && (
+          <ComparisonArea>
+            <Title>Comparing</Title>
+            {countries.map((country, index) => (
+              <GraphLegend
+                key={country.country + index}
+                label={country.country}
+                index={index}
               />
-              <Compare
-                dataLabel="recoveredPerOneMillion"
-                countries={countries}
-              />
-            </>
-          ) : (
-            <p>Please click at a country to start comparison mode </p>
-          )}
-        </ComparisonArea>
+            ))}
+            <Compare dataLabel="casesPerOneMillion" countries={countries} />
+            <Compare dataLabel="activePerOneMillion" countries={countries} />
+            <Compare dataLabel="deathsPerOneMillion" countries={countries} />
+            <Compare dataLabel="testsPerOneMillion" countries={countries} />
+            <Compare dataLabel="criticalPerOneMillion" countries={countries} />
+            <Compare dataLabel="recoveredPerOneMillion" countries={countries} />
+          </ComparisonArea>
+        )}
       </PageTemplate>
     </>
   );
 };
 
 CountriesPage.getInitialProps = async (ctx) => {
-  const { data } = await api.get<CountryData | CountryData[]>(
-    `/countries/${ctx.query?.countries || ""}`
-  );
+  const countries = ctx.query?.countries as string[];
+  const path = `/countries/${countries.join(",")}`;
+  const { data } = await api.get<CountryData | CountryData[]>(path);
 
   return {
     countries: Array.isArray(data) ? data : Array(data),

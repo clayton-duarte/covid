@@ -2,9 +2,7 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
 import { CountryData } from "../types";
-import GraphLegend from "./GraphLegend";
 import PercentBar from "./PercentBar";
-import Paper from "./Paper";
 import Title from "./Title";
 
 const SubTitle = styled(Title)`
@@ -29,12 +27,12 @@ const Compare: FunctionComponent<CompareProps> = ({ dataLabel, countries }) => {
   };
 
   const dataList = countries.map((country) => Number(country[dataLabel]));
-  const total = dataList.reduce((a, b) => a + b, 0);
+  // const total = dataList.reduce((a, b) => a + b, 0);
 
   return (
-    <Paper>
+    <>
       <SubTitle>{mapLabels[dataLabel]}</SubTitle>
-      {countries.map((country, index) => (
+      {/* {countries.map((country, index) => (
         <GraphLegend
           value={Number(country[dataLabel])}
           key={country.country + index}
@@ -42,9 +40,9 @@ const Compare: FunctionComponent<CompareProps> = ({ dataLabel, countries }) => {
           total={total}
           index={index}
         />
-      ))}
+      ))} */}
       <PercentBar dataList={dataList} />
-    </Paper>
+    </>
   );
 };
 

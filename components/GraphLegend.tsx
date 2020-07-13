@@ -32,9 +32,9 @@ const StyledPercent = styled.span`
 `;
 
 interface DataRowProps {
+  value?: number;
+  total?: number;
   label: string;
-  value: number;
-  total: number;
   index: number;
 }
 
@@ -44,14 +44,14 @@ const DataRow: FunctionComponent<DataRowProps> = ({
   total,
   index,
 }) => {
-  const percent = formatPercent(value, total);
-
   return (
     <StyledRow>
       <StyledCircle index={index} />
-      <StyledLabel>{label}:</StyledLabel>
-      <StyledValue>{formatNumber(value)}</StyledValue>
-      <StyledPercent>{percent}</StyledPercent>
+      <StyledLabel>{label}</StyledLabel>
+      {value && <StyledValue>{formatNumber(value)}</StyledValue>}
+      {value && total && (
+        <StyledPercent>{formatPercent(value, total)}</StyledPercent>
+      )}
     </StyledRow>
   );
 };

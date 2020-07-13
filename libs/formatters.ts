@@ -13,3 +13,7 @@ export function roundNumber(number: number): string {
 export function formatPercent(value: number, total: number = 100): string {
   return `${((value / total) * 100).toFixed(0)}%`;
 }
+
+export function arrayToPath(arr: string[]): string {
+  return arr.map((a) => a.toLowerCase()).join("/");
+}
