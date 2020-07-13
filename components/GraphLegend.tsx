@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 
 import { formatPercent, formatNumber } from "../libs/formatters";
-import { LabelColor } from "../types";
 
 const StyledRow = styled.p`
   grid-template-columns: auto 1fr auto auto;
@@ -12,8 +11,8 @@ const StyledRow = styled.p`
   gap: 0.5rem;
 `;
 
-const StyledCircle = styled.span<{ label: string }>`
-  background: ${(props) => props.theme[LabelColor[props.label]]};
+const StyledCircle = styled.span<{ index: number }>`
+  background: rgba(0, 0, 0, ${(props) => (props.index + 1) / 10});
   box-shadow: ${(props) => props.theme.shadow2};
   border-radius: 0.5rem;
   height: 0.5rem;
@@ -36,14 +35,20 @@ interface DataRowProps {
   label: string;
   value: number;
   total: number;
+  index: number;
 }
 
-const DataRow: FunctionComponent<DataRowProps> = ({ label, value, total }) => {
+const DataRow: FunctionComponent<DataRowProps> = ({
+  label,
+  value,
+  total,
+  index,
+}) => {
   const percent = formatPercent(value, total);
 
   return (
     <StyledRow>
-      <StyledCircle label={label} />
+      <StyledCircle index={index} />
       <StyledLabel>{label}:</StyledLabel>
       <StyledValue>{formatNumber(value)}</StyledValue>
       <StyledPercent>{percent}</StyledPercent>

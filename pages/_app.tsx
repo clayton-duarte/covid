@@ -11,8 +11,8 @@ const colors = {
 };
 
 const shapes = {
-  shadow1: "0 0 1rem rgba(0, 0, 0, 0.2)",
-  shadow2: "inset 0 -0.25rem 0 rgba(0, 0, 0, 0.2)",
+  shadow1: "0 0 1rem rgba(0, 0, 0, 0.1)",
+  shadow2: "inset 0 -0.25rem 0 rgba(0, 0, 0, 0.1)",
   border: `1px solid ${colors.tertiary}`,
   radius: "1rem",
 };
@@ -32,6 +32,9 @@ body, html, #__next {
   display: grid;
   height: 100%;
   margin: 0;
+  * {
+    box-sizing: border-box;
+  }
 }
 
 p, h1, h2, h3, h4, h5, h6 {

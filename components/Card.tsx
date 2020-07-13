@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import Link from "next/link";
 
 import { CountryData, Data } from "../types";
 import GraphLegend from "./GraphLegend";
@@ -9,34 +10,36 @@ import Paper from "./Paper";
 import Title from "./Title";
 
 interface CardProps extends Data {
-  country?: CountryData["country"];
+  country: CountryData["country"];
 }
 
 const Card: FunctionComponent<CardProps> = ({
   population,
-  recovered,
   country,
-  deaths,
-  active,
-  cases,
+  ...props
 }) => {
+  const stats = ["active", "recovered", "deaths"];
+
   return (
-    <Paper>
-      <Title>{country || "World"}</Title>
-      <Divider />
-      <DataRow label="population" value={population} />
-      <DataRow label="cases" value={cases} />
-      <Divider />
-      <GraphLegend label="active" value={active} total={cases} />
-      <GraphLegend label="recovered" value={recovered} total={cases} />
-      <GraphLegend label="deaths" value={deaths} total={cases} />
-      <PercentBar
-        recovered={recovered}
-        active={active}
-        deaths={deaths}
-        cases={cases}
-      />
-    </Paper>
+    <Link href="/[countries]" as={`/${country}`}>
+      <Paper>
+        <Title>{country}</Title>
+        <Divider />
+        <DataRow label="population" value={population} />
+        <DataRow label="cases" value={props.cases} />
+        <Divider />
+        {stats.map((stat, index) => (
+          <GraphLegend
+            value={props[stat]}
+            total={props.cases}
+            key={stat + index}
+            index={index}
+            label={stat}
+          />
+        ))}
+        <PercentBar dataList={stats.map((stat) => props[stat])} />
+      </Paper>
+    </Link>
   );
 };
 

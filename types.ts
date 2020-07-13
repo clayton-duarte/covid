@@ -25,12 +25,6 @@ export interface WorldData extends Data {
   affectedCountries: number;
 }
 
-export enum LabelColor {
-  recovered = "tertiary",
-  active = "secondary",
-  deaths = "primary",
-}
-
 export interface Country {
   flag: string;
   iso2: string;
