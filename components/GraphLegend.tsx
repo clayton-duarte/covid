@@ -12,11 +12,11 @@ const StyledRow = styled.p`
 `;
 
 const StyledCircle = styled.span<{ index: number }>`
-  background: rgba(0, 0, 0, ${(props) => (props.index + 1) / 10});
+  background: ${(props) => props.theme.graphColors[props.index]};
   box-shadow: ${(props) => props.theme.shadow2};
-  border-radius: 0.5rem;
-  height: 0.5rem;
-  width: 0.5rem;
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
 `;
 
 const StyledLabel = styled.strong`

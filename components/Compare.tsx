@@ -18,12 +18,12 @@ interface CompareProps {
 
 const Compare: FunctionComponent<CompareProps> = ({ dataLabel, countries }) => {
   const mapLabels: Partial<{ [key in DataToCompare]: string }> = {
-    criticalPerOneMillion: "critical cases / million",
-    recoveredPerOneMillion: "recovered / million",
-    activePerOneMillion: "active cases / million",
-    deathsPerOneMillion: "deaths / million",
-    casesPerOneMillion: "cases / million",
-    testsPerOneMillion: "tests / million",
+    criticalPerOneMillion: "critical cases per million",
+    recoveredPerOneMillion: "recovered per million",
+    activePerOneMillion: "active cases per million",
+    deathsPerOneMillion: "deaths per million",
+    casesPerOneMillion: "cases per million",
+    testsPerOneMillion: "tests per million",
   };
 
   const dataList = countries.map((country) => Number(country[dataLabel]));

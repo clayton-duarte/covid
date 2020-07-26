@@ -8,11 +8,11 @@ const HomePage: NextPage = () => {
 HomePage.getInitialProps = async ({ req, res }) => {
   if (req) {
     // is on server
-    res.writeHead(302, { location: "/brazil" });
+    res.writeHead(302, { location: "/brazil/canada" });
     res.end();
   } else {
     // is on client
-    Router.push("/brazil");
+    Router.push("/brazil/canada");
   }
   return {};
 };

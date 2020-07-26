@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 interface PercentBarProps {
   dataList: number[];
+  theme: any;
 }
 
-const createGradient = ({ dataList }: PercentBarProps): string => {
+const createGradient = ({ dataList, theme }: PercentBarProps): string => {
   return dataList
     .map((data) => (data / dataList.reduce((a, b) => a + b, 0)) * 100)
     .map((data, index, arr) => {
@@ -12,7 +13,7 @@ const createGradient = ({ dataList }: PercentBarProps): string => {
       return `${subTotal}% ${subTotal + data}%`;
     })
     .map((data, index) => {
-      return `rgba(0,0,0,0.${index + 1}) ${data}`;
+      return `${theme.graphColors[index]} ${data}`;
     })
     .join(",");
 };

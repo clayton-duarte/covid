@@ -131,6 +131,7 @@ const CountriesPage: NextPage<PageProps> = ({ countries }) => {
             key={country.countryInfo._id + index}
             countries={countries}
             country={country}
+            index={index}
           />
         ))}
         <form onSubmit={handleSubmit}>

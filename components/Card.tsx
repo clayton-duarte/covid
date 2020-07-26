@@ -5,21 +5,21 @@ import styled from "styled-components";
 import Link from "next/link";
 
 import { arrayToPath } from "../libs/formatters";
-import { CountryData, Data } from "../types";
 import GraphLegend from "./GraphLegend";
+import { CountryData } from "../types";
 import PercentBar from "./PercentBar";
 import Divider from "./Divider";
 import DataRow from "./DataRow";
 import Paper from "./Paper";
 import Title from "./Title";
 
-const StyledAnchor = styled.a`
+const StyledAnchor = styled.a<{ index: number }>`
   color: ${(props) => props.theme.primary};
 `;
 
-const StyledIcon = styled(FiMinusCircle)`
-  position: absolute;
+const StyledIcon = styled(FiMinusCircle)<{ index: number }>`
   color: ${(props) => props.theme.primary};
+  position: absolute;
   font-size: 1.5rem;
   cursor: pointer;
   left: 1rem;
@@ -29,9 +29,10 @@ const StyledIcon = styled(FiMinusCircle)`
 interface CardProps {
   countries: CountryData[];
   country: CountryData;
+  index: number;
 }
 
-const Card: FunctionComponent<CardProps> = ({ countries, country }) => {
+const Card: FunctionComponent<CardProps> = ({ countries, country, index }) => {
   const stats = ["active", "recovered", "deaths"];
   const router = useRouter();
 
@@ -45,13 +46,13 @@ const Card: FunctionComponent<CardProps> = ({ countries, country }) => {
 
   return (
     <Paper>
-      <StyledIcon role="button" onClick={handleClickRemove} />
+      <StyledIcon index={index} role="button" onClick={handleClickRemove} />
       <Link
         as={`/${country.country.toLowerCase()}`}
         href="/[...countries]"
         passHref
       >
-        <StyledAnchor href="#">
+        <StyledAnchor index={index} href="#">
           <Title>{country.country}</Title>
         </StyledAnchor>
       </Link>

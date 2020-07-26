@@ -6,12 +6,14 @@ import Head from "next/head";
 
 import { formatDate } from "../libs/formatters";
 
+const graphColors = ["#ffba08", "#136f63", "#d00000", "#437f97", "#032b43"];
+
 const colors = {
-  primary: "tomato",
-  secondary: "grey",
-  tertiary: "silver",
-  text: "black",
-  bg: "white",
+  primary: graphColors[4],
+  secondary: graphColors[3],
+  tertiary: graphColors[1],
+  text: graphColors[4],
+  bg: "#ffffff",
 };
 
 const shapes = {
@@ -22,6 +24,7 @@ const shapes = {
 };
 
 const theme = {
+  graphColors,
   ...colors,
   ...shapes,
 };
