@@ -4,14 +4,12 @@ import { PageTransition } from "next-page-transitions";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import { formatDate } from "../libs/formatters";
-
-const graphColors = ["#ffba08", "#136f63", "#d00000", "#437f97", "#032b43"];
+const graphColors = ["#136f63", "#ffba08", "#d00000", "#437f97", "#032b43"];
 
 const colors = {
   primary: graphColors[4],
   secondary: graphColors[3],
-  tertiary: graphColors[1],
+  tertiary: graphColors[3],
   text: graphColors[4],
   bg: "#ffffff",
 };
@@ -83,12 +81,14 @@ const MyApp: FunctionComponent<AppProps> = ({
   pageProps,
   router,
 }) => {
+  const countryList = router.query.countries as string[];
+
   return (
     <ThemeProvider theme={theme}>
       <PageTransition timeout={200} classNames="page-transition">
         <Template>
           <Head>
-            <title>C0VID19 - {formatDate()}</title>
+            <title>COVID19 - {countryList.join(" X ")}</title>
           </Head>
           <Component {...pageProps} key={router.route} />
         </Template>

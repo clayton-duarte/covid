@@ -33,7 +33,7 @@ interface CardProps {
 }
 
 const Card: FunctionComponent<CardProps> = ({ countries, country, index }) => {
-  const stats = ["active", "recovered", "deaths"];
+  const stats = ["recovered", "active", "deaths"];
   const router = useRouter();
 
   const handleClickRemove = () => {
